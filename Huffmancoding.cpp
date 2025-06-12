@@ -60,6 +60,45 @@ void CreateHuffmanTree(HuffmanTree &HT, int n) {
 
 int main(){
     HuffmanTree HT;
-    CreateHuffmanTree(HT, 5);
+
+    int choice;
+    cout << "\n===== 哈夫曼编码与译码系统 =====\n";
+    cout << "1. 读取文件并统计字符频率\n";
+    cout << "2. 构造哈夫曼树并输出\n";
+    cout << "3. 生成哈夫曼编码并输出\n";
+    cout << "4. 对报文进行编码\n";
+    cout << "5. 接收报文并译码\n";
+    cout << "6. 退出\n";
+    cout << "请选择操作(1-6): ";
+    cin >> choice;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');  // 清除输入缓冲区
+    switch (choice)
+    {
+    case 1:
+
+        cout << "文件读取完成！字符频率统计如下：\n";
+
+        break;
+    case 2:
+          CreateHuffmanTree(HT, 5);
+        cout << "哈夫曼树构造完成！树结构如下：\n";
+        break;
+      
+    case 3:
+    
+        cout << "哈夫曼编码如下：\n";
+     
+        break;
+    case 4:
+        cout << "请输入要编码的报文: ";
+        break;
+    case 5:
+        break;
+    case 6:
+        cout << "退出程序。\n";
+        break;
+    default:
+        cout << "无效的选择，请重新输入！\n";
+    }
     return 0;
 }
