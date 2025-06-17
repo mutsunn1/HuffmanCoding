@@ -88,7 +88,8 @@ int main(){
     case 2:
           CreateHuffmanTree(HT, 5);
         cout << "哈夫曼树构造完成！树结构如下：\n";
-          PrintHuffmanTree(HT, 5) 
+          PrintHuffmanTree(HT, 5);
+		cout << "数据 权值 父结点 左孩子 右孩子\n";
         break;
       
     case 3:
