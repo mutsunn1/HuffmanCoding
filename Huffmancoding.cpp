@@ -3,10 +3,12 @@
 #include <cstring>
 #include <climits>
 #include <fstream>
+#include <limits>
 #define MAX 100
 using namespace std;
 
 typedef struct HTNode {
+	char data;
     int weight;
     int parent, lchild, rchild;
 } HTNode, *HuffmanTree;
