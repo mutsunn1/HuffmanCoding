@@ -57,7 +57,13 @@ void CreateHuffmanTree(HuffmanTree &HT, int n) {
         HT[i].weight = HT[s1].weight + HT[s2].weight;
     }
 }
-
+void PrintHuffmanTree(HuffmanTree HT, int n) // 打印哈夫曼树
+{
+    for (int i = 1; i <= n; ++i)
+    {
+        cout << HT[i].data << " " << HT[i].weight << " " << HT[i].parent << " " << HT[i].lchild << " " << HT[i].rchild << endl;
+    }
+}
 int main(){
     HuffmanTree HT;
 
@@ -82,6 +88,7 @@ int main(){
     case 2:
           CreateHuffmanTree(HT, 5);
         cout << "哈夫曼树构造完成！树结构如下：\n";
+          PrintHuffmanTree(HT, 5) 
         break;
       
     case 3:
