@@ -12,6 +12,7 @@ typedef struct HTNode {
     int weight;
     int parent, lchild, rchild;
 } HTNode, *HuffmanTree;
+string code[MAX]; // 存储哈夫曼编码
 
 int ch[MAX]; // 权值数组(字符频率)
 
@@ -64,6 +65,28 @@ void PrintHuffmanTree(HuffmanTree HT, int n) // 打印哈夫曼树
     for (int i = 1; i <= n; ++i)
     {
         cout << HT[i].data << " " << HT[i].weight << " " << HT[i].parent << " " << HT[i].lchild << " " << HT[i].rchild << endl;
+    }
+}
+// 生成哈夫曼编码
+void GenerateHuffmanCode(HuffmanTree HT, int n) {
+  
+    for (int i = 1; i <= n; ++i) {
+        int current = i;
+        string temp = "";
+        while (HT[current].parent != 0) {
+            if (HT[HT[current].parent].lchild == current) {
+                temp = "0" + temp; // 左子树为0
+            } else {
+                temp = "1" + temp; // 右子树为1
+            }
+            current = HT[current].parent; // 回溯到父节点
+        }
+        code[i - 1] = temp; // 存储编码
+    }
+
+    // 输出哈夫曼编码
+    for (int i = 0; i < n; ++i) {
+        cout << "字符: " << HT[i + 1].data << " 编码: " << code[i] << endl;
     }
 }
 int main(){
