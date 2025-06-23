@@ -151,7 +151,7 @@ int main() {
           continue;
         case 6:
             cout << "退出程序。\n";
-            continue;
+            break;
         default:
             cout << "无效的选择，请重新输入！\n";
         }
