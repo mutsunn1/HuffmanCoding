@@ -1,0 +1,2 @@
+This is a test file for Huffman coding!
+It contains multiple lines of text with various characters.
