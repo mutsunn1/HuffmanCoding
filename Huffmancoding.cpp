@@ -4,6 +4,11 @@
 #include <climits>
 #include <fstream>
 #include <limits>
+#define OK 1
+#define ERROR 0
+#include<stdio.h>
+typedef int Status;
+typedef int ElemTyep;
 #define MAX 100
 using namespace std;
 
@@ -201,6 +206,8 @@ void CreateHuffmanTree(HuffmanTree &HT, int n)
     for (int i = 1; i <= m; ++i)
     {
         HT[i].parent = HT[i].lchild = HT[i].rchild = 0;
+        HT[i].weight = 0;
+        HT[i].data = '\0';
     }
     // 使用传入的频率数据
     for (int i = 1; i <= n; ++i)
