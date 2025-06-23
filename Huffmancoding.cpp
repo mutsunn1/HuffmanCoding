@@ -4,20 +4,29 @@
 #include <climits>
 #include <fstream>
 #include <limits>
+#define OK 1
+#define ERROR 0
+#include<stdio.h>
+typedef int Status;
+typedef int ElemTyep;
 #define MAX 100
 using namespace std;
 
 typedef struct HTNode {
-	char data;
+    char data;
     int weight;
     int parent, lchild, rchild;
-} HTNode, *HuffmanTree;
+} HTNode, * HuffmanTree;
+
 string code[MAX]; // 存储哈夫曼编码
 
 int ch[MAX]; // 权值数组(字符频率)
+char chars[MAX]; // 字符数组
+int n = 0; // 字符种类数量
+HuffmanTree HT = nullptr; // 全局哈夫曼树
 
-// 选择两个权值最小且无父节点的节点，s1、s2 带回下标
-void Select(HuffmanTree HT, int m, int &s1, int &s2) {
+ /*选择两个权值最小且无父节点的节点，s1、s2 带回下标*/
+void Select(HuffmanTree HT, int m, int& s1, int& s2) {
     s1 = s2 = -1;
     int min1 = INT_MAX, min2 = INT_MAX;
     for (int i = 1; i <= m; ++i) {
@@ -27,7 +36,8 @@ void Select(HuffmanTree HT, int m, int &s1, int &s2) {
                 s2 = s1;
                 min1 = HT[i].weight;
                 s1 = i;
-            } else if (HT[i].weight < min2) { 
+            }
+            else if (HT[i].weight < min2) {
                 min2 = HT[i].weight;
                 s2 = i;
             }
@@ -36,7 +46,7 @@ void Select(HuffmanTree HT, int m, int &s1, int &s2) {
 }
 
 // 创建哈夫曼树，n 为字符数量（权值数量）
-void CreateHuffmanTree(HuffmanTree &HT, int n) {
+void CreateHuffmanTree(HuffmanTree& HT, int n) {
     if (n <= 1) return;
     int m = 2 * n - 1;  // 哈夫曼树总节点数
     HT = new HTNode[m + 1];  // 下标从 1 开始
@@ -44,10 +54,13 @@ void CreateHuffmanTree(HuffmanTree &HT, int n) {
     // 初始化所有节点
     for (int i = 1; i <= m; ++i) {
         HT[i].parent = HT[i].lchild = HT[i].rchild = 0;
+        HT[i].weight = 0;
+        HT[i].data = '\0';
     }
     // 录入前 n 个叶子节点的权值（字符频率）
     for (int i = 1; i <= n; ++i) {
-        HT[i].weight = ch[i - 1]; 
+        HT[i].weight = ch[i - 1];
+        HT[i].data = chars[i - 1];
     }
 
     // 构建哈夫曼树（合并非叶子节点）
@@ -62,21 +75,30 @@ void CreateHuffmanTree(HuffmanTree &HT, int n) {
 }
 void PrintHuffmanTree(HuffmanTree HT, int n) // 打印哈夫曼树
 {
-    for (int i = 1; i <= n; ++i)
-    {
-        cout << HT[i].data << " " << HT[i].weight << " " << HT[i].parent << " " << HT[i].lchild << " " << HT[i].rchild << endl;
+    cout << "节点\t字符\t权值\t父节点\t左孩子\t右孩子" << endl;
+    for (int i = 1; i <= n; ++i) {
+        cout << i << "\t";
+        if (HT[i].data == '\0')
+            cout << "N/A";
+        else
+            cout << HT[i].data;
+        cout << "\t" << HT[i].weight << "\t"
+            << HT[i].parent << "\t"
+            << HT[i].lchild << "\t"
+            << HT[i].rchild << endl;
     }
 }
 // 生成哈夫曼编码
 void GenerateHuffmanCode(HuffmanTree HT, int n) {
-  
+
     for (int i = 1; i <= n; ++i) {
         int current = i;
         string temp = "";
         while (HT[current].parent != 0) {
             if (HT[HT[current].parent].lchild == current) {
                 temp = "0" + temp; // 左子树为0
-            } else {
+            }
+            else {
                 temp = "1" + temp; // 右子树为1
             }
             current = HT[current].parent; // 回溯到父节点
@@ -89,49 +111,51 @@ void GenerateHuffmanCode(HuffmanTree HT, int n) {
         cout << "字符: " << HT[i + 1].data << " 编码: " << code[i] << endl;
     }
 }
-int main(){
-    HuffmanTree HT;
-
-    int choice;
-    cout << "\n===== 哈夫曼编码与译码系统 =====\n";
-    cout << "1. 读取文件并统计字符频率\n";
-    cout << "2. 构造哈夫曼树并输出\n";
-    cout << "3. 生成哈夫曼编码并输出\n";
-    cout << "4. 对报文进行编码\n";
-    cout << "5. 接收报文并译码\n";
-    cout << "6. 退出\n";
-    cout << "请选择操作(1-6): ";
-    cin >> choice;
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');  // 清除输入缓冲区
-    switch (choice)
+int main() {
+    while (true)
     {
-    case 1:
+        int choice;
+        cout << "\n===== 哈夫曼编码与译码系统 =====\n";
+        cout << "1. 读取文件并统计字符频率\n";
+        cout << "2. 构造哈夫曼树并输出\n";
+        cout << "3. 生成哈夫曼编码并输出\n";
+        cout << "4. 对报文进行编码\n";
+        cout << "5. 接收报文并译码\n";
+        cout << "6. 退出\n";
+        cout << "请选择操作(1-6): ";
+        cin >> choice;
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');  // 清除输入缓冲区
+        switch (choice)
+        {
+        case 1:
 
-        cout << "文件读取完成！字符频率统计如下：\n";
+            cout << "文件读取完成！字符频率统计如下：\n";
 
-        break;
-    case 2:
-          CreateHuffmanTree(HT, 5);
-        cout << "哈夫曼树构造完成！树结构如下：\n";
-		cout << "数据 权值 父结点 左孩子 右孩子\n";
-		  PrintHuffmanTree(HT, 5);
-        break;
-      
-    case 3:
-    
-        cout << "哈夫曼编码如下：\n";
-     
-        break;
-    case 4:
-        cout << "请输入要编码的报文: ";
-        break;
-    case 5:
-        break;
-    case 6:
-        cout << "退出程序。\n";
-        break;
-    default:
-        cout << "无效的选择，请重新输入！\n";
+            continue;
+        case 2:
+            CreateHuffmanTree(HT, 5);
+            cout << "哈夫曼树构造完成！树结构如下：\n";
+            PrintHuffmanTree(HT, 5);
+           continue;
+        case 3:
+            ;
+            cout << "哈夫曼编码如下：\n";
+            GenerateHuffmanCode(HT, 5);
+
+           continue;
+        case 4:
+            cout << "请输入要编码的报文: ";
+           continue;
+        case 5:
+            cout << "请输入要解码的报文: ";
+          continue;
+        case 6:
+            cout << "退出程序。\n";
+            continue;
+        default:
+            cout << "无效的选择，请重新输入！\n";
+        }
+        return 0;
     }
-    return 0;
+   
 }
