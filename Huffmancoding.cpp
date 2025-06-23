@@ -13,8 +13,11 @@ typedef struct HTNode {
     int parent, lchild, rchild;
 } HTNode, *HuffmanTree;
 string code[MAX]; // 存储哈夫曼编码
+char chars[MAX];       // 字符数组
+int freq[MAX];         // 频率数组
+int charCount = 0;     // 实际字符数量
 
-int ch[MAX]; // 权值数组(字符频率)
+
 
 // 选择两个权值最小且无父节点的节点，s1、s2 带回下标
 void Select(HuffmanTree HT, int m, int &s1, int &s2) {
@@ -45,9 +48,10 @@ void CreateHuffmanTree(HuffmanTree &HT, int n) {
     for (int i = 1; i <= m; ++i) {
         HT[i].parent = HT[i].lchild = HT[i].rchild = 0;
     }
-    // 录入前 n 个叶子节点的权值（字符频率）
+     // 使用传入的频率数据
     for (int i = 1; i <= n; ++i) {
-        HT[i].weight = ch[i - 1]; 
+        HT[i].data = chars[i-1];  // 添加字符数据
+        HT[i].weight = ch[i-1];   // 使用传入的频率
     }
 
     // 构建哈夫曼树（合并非叶子节点）
