@@ -1,5 +1,3 @@
-tlis is e t9 nirdnagwuyslrsaf
-o.fe uaghn cos wmanesrdrioqan tm
-afaieoele
-iris hle
-fttmstf r
+this is a test file for huffman coding!
+it contains multiple lines of text with various characters.
+就是这样。

@@ -4,11 +4,6 @@
 #include <climits>
 #include <fstream>
 #include <limits>
-#define OK 1
-#define ERROR 0
-#include<stdio.h>
-typedef int Status;
-typedef int ElemTyep;
 #define MAX 100
 using namespace std;
 
