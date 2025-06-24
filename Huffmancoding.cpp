@@ -365,11 +365,22 @@ void DecodeHuffman(HuffmanTree HT, int n, const string &encodedMessage, const st
         return;
     }
 
-    int root = 2 * n - 1; // 计算根节点索引
-    int current = root;   // 从根节点开始
+    // 创建过滤后的编码字符串
+    string filteredCode;
+    for (char bit : encodedMessage)
+    {
+        if (bit == '0' || bit == '1')
+        {
+            filteredCode += bit;
+        }
+    }
+
+    // 从根节点开始解码
+    int root = 2 * n - 1;
+    int current = root;
     string decodedMessage;
 
-    for (char bit : encodedMessage)
+    for (char bit : filteredCode)
     {
         // 如果当前节点是叶子节点，记录字符并重置到根节点
         if (HT[current].lchild == 0 && HT[current].rchild == 0)
@@ -457,7 +468,6 @@ int main()
         {
             CreateHuffmanTree(HT, charCount);
             cout << "哈夫曼树构造完成！树结构如下：\n";
-            cout << "数据 权值 父结点 左孩子 右孩子\n";
             PrintHuffmanTree(HT, charCount);
         }
             continue;
